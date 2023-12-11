@@ -1,0 +1,1 @@
+{"frames":[{"func":"caret::createDataPartition(vehicles[, 1], p = 0.8, list = F, \n    times = 1)","file":"","line_number":0,"end_line_number":0,"character_number":0,"end_character_number":0}],"message":"Error: object 'vehicles' not found\n"}

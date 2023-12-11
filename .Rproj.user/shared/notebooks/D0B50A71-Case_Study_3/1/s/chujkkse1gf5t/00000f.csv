@@ -1,0 +1,3 @@
+"0",""
+"0","legoData = read.csv(""sets.csv"")"
+"0","legoData = sample_n(legoData, 100)"

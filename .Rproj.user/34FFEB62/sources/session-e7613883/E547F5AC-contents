@@ -1,0 +1,104 @@
+# Install the necessary packages if not already installed
+# install.packages(c("shiny", "shinydashboard", "readr", "ggplot2"))
+
+# Load the required libraries
+library(shiny)
+library(shinydashboard)
+library(tidyverse)
+library(caret)
+
+lego_data <- read_csv("lego.csv")
+
+# Resample function
+resample <- function(size) {
+  sample <- sample_n(lego_data, size)
+  return(sample)
+}
+
+# Define UI for application
+ui <- dashboardPage(
+  dashboardHeader(title = "Linear Regression Plotter"),
+  dashboardSidebar(
+    selectInput("dependent_var", "Select Dependent Variable", choices = c("USD_MSRP")),
+    selectInput("independent_var", "Select Independent Variable", choices = c("Pieces", "Minifigures", "USD_MSRP")),
+    actionButton("run_regression", "Run Regression"),
+    selectInput("sample_size", "Select Sample Size", choices = c("5000","1000","500","100","10")),
+    actionButton("resample", "Run Resample")
+  ),
+  dashboardBody(
+    box(
+      title = "Lego Data Linear Regression Plot",
+      plotOutput("regression_plot"),
+      verbatimTextOutput("summary"),
+      verbatimTextOutput("correlation_output"),
+      verbatimTextOutput("thing")
+    )
+  )
+)
+
+# Define server logic
+server <- function(input, output, session) {
+  # Load dataset
+  dataset <- reactive({
+    req(input$file)
+    read.csv(input$file$datapath)
+  })
+  
+  # Update dependent and independent variable choices based on the uploaded dataset
+  observe({
+    if (!is.null(lego_data)) {
+      updateSelectInput(session, "dependent_var", choices = c("USD_MSRP", "Pieces", "Minifigures"))
+      updateSelectInput(session, "independent_var", choices = c("Pieces", "Minifigures", "USD_MSRP"))
+    }
+  })
+  
+  # Resample dataframe
+  observeEvent(input$resample, {
+    set.seed(1234)
+    splitLego = caret::createDataPartition(y = lego_data$Year, p = 0.10, list=F)
+    lego_data = lego_data[splitLego,]
+    
+    output$thing <- renderPlot({
+      print("Thing Happened")
+    })
+    
+  })
+  
+  # Perform linear regression and create the plot
+  observeEvent(input$run_regression, {
+    req(input$dependent_var, input$independent_var)
+    
+    formula <- as.formula(paste(input$dependent_var, "~", input$independent_var))
+    model <- lm(formula, data = lego_data)
+    
+    correlation <- cor(lego_data[[input$dependent_var]], lego_data[[input$independent_var]])
+    
+    # Create a scatter plot with the linear regression line
+    plot_data <- data.frame(x = lego_data[[input$independent_var]], y = lego_data[[input$dependent_var]])
+    p <- ggplot(plot_data, aes(x = x, y = y)) +
+      geom_point() +
+      geom_smooth(method = "lm", se = FALSE, color = "blue") +
+      labs(title = "Linear Regression Plot", x = input$independent_var, y = input$dependent_var)
+    
+    set.seed(1234)
+    splitLego <- caret::createDataPartition(y = lego_data$Year, p = 0.10, list=F)
+    lego_data <- lego_data[splitLego,]
+    
+    output$regression_plot <- renderPlot({
+      print(p)
+    })
+    
+    output$summary <- renderPrint({
+      summary(model)
+    })
+    
+    output$correlation_output <- renderText({
+      paste("Correlation Coefficient:", round(correlation, 4))
+    })
+    
+    
+  })
+}
+
+# Run the application
+shinyApp(ui, server)

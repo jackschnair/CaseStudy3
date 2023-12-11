@@ -1,0 +1,3 @@
+"0","predPrice$lwr = predict(lr, newdata=testLego, interval = ""prediction"")[,2]"
+"0","predPrice$upr = predict(lr, newdata=testLego, interval = ""prediction"")[,3]"
+"0","predPrice"

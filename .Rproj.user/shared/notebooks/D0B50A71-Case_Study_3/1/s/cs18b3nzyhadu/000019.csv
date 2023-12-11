@@ -1,0 +1,5 @@
+"0","set.seed(1234)"
+"0","splitLego = caret::createDataPartition(y = df$Year, p = 0.95, list=F)"
+"0","trainLego = df[splitLego,]"
+"0","testLego = df[!row.names(df) %in% row.names(trainLego),]"
+"0","testLego = df[-splitLego,]"

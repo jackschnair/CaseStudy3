@@ -1,0 +1,3 @@
+"0","p1 = p + geom_abline(intercept = lr[1]$coefficients[1], "
+"0","                     slope = lr[1]$coefficients[2], color=""red"")"
+"0","p1"

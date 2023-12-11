@@ -1,0 +1,5 @@
+"0","p3 <- p + geom_abline(intercept = lr[1]$coefficients[1], "
+"0","                      slope = lr[1]$coefficients[2], color=""red"") +"
+"0","      geom_abline(intercept = lr[1]$coefficients[1], "
+"0","                  slope = lr[1]$coefficients[2], color=""blue"", linetype = ""dotted"")"
+"0","p3"

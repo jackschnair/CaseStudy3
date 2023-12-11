@@ -1,0 +1,42 @@
+library(shiny)
+library(ggplot2)
+
+ui <- fluidPage(
+  titlePanel("Multiple Linear Regression"),
+  sidebarLayout(
+    sidebarPanel(
+      selectInput("dependent", "Select Dependent Variable:", choices = names(mtcars), selected = "mpg"),
+      checkboxGroupInput("independent", "Select Independent Variables:", choices = names(mtcars)),
+      actionButton("run_regression", "Run Regression")
+    ),
+    mainPanel(
+      plotOutput("regression_plot"),
+      verbatimTextOutput("regression_summary")
+    )
+  )
+)
+
+server <- function(input, output) {
+  # Reactive expression to perform linear regression
+  regression_result <- reactive({
+    independent_vars <- input$independent
+    formula <- as.formula(paste(input$dependent, "~", paste(independent_vars, collapse = "+")))
+    lm_model <- lm(formula, data = mtcars)
+    return(lm_model)
+  })
+  
+  # Render the regression plot
+  output$regression_plot <- renderPlot({
+    ggplot(mtcars, aes_string(x = input$dependent, y = paste(input$independent, collapse = "+"))) +
+      geom_point() +
+      geom_smooth(method = "lm", se = FALSE, color = "blue") +
+      labs(title = "Multiple Linear Regression", x = input$dependent, y = "Fitted Values")
+  })
+  
+  # Render the regression summary
+  output$regression_summary <- renderPrint({
+    summary(regression_result())
+  })
+}
+
+shinyApp(ui, server)

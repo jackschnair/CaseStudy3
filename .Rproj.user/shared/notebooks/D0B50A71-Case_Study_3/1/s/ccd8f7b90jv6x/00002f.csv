@@ -1,0 +1,5 @@
+"0",""
+"0","products_df %>% ggplot(aes(x="""", y=count, fill=Category)) +"
+"0","  geom_bar(stat = ""identity"", width=1) +"
+"0","  coord_polar(""y"", start=0) +"
+"0","  theme_void()"

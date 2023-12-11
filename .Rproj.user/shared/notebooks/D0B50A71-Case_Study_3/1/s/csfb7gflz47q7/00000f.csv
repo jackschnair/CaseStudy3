@@ -1,0 +1,6 @@
+"0","PRESS = sum((predPrice$Reference - predPrice$Predicted)^2)"
+"0","PRESS"
+"1","[1]"
+"1"," 96031.06"
+"1","
+"

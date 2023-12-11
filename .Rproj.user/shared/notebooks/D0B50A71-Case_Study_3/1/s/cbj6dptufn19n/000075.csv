@@ -1,0 +1,8 @@
+"0",""
+"0","# Make a bar chart of the most profitable franchises"
+"0",""
+"0","theme_chart %>% ggplot(aes(x=reorder(Theme, -profit_Millions_USD), y=profit_Millions_USD)) + "
+"0","  theme(axis.text.x = element_text(angle=90, vjust = 0.5, hjust = 1)) +"
+"0","  geom_bar(stat = ""identity"") +"
+"0","  ylab(""Profit in millions of USD"") + xlab(""Franchise"") +"
+"0","  labs(title = ""Profits of Top Lego Franchises"")"

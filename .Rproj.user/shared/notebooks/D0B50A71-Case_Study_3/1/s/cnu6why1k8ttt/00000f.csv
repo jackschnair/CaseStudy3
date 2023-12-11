@@ -1,0 +1,8 @@
+"0","set.seed(1234)"
+"0","splitVeh = caret::createDataPartition(vehicles[,1], p = 0.8, list=F, times=1)"
+"2","Registered S3 method overwritten by 'data.table':
+  method           from
+  print.data.table     
+"
+"2","Error: object 'vehicles' not found
+"
