@@ -1,0 +1,13 @@
+name: casestudy3test
+title: CaseStudy3test
+username: Jack Schnair
+account: Jack Schnair
+server: posit.cloud
+hostUrl: https://api.posit.cloud/v1
+appId: 7232686
+bundleId: 8032943
+url: https://posit.cloud/content/7232686
+version: 1
+asMultiple: FALSE
+asStatic: FALSE
+ignoredFiles: app.R3|app.Rgood|sets.csv
